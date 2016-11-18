@@ -1,0 +1,6 @@
+<h1>Home#home</h1>
+
+<%= form_tag(search_path, method: "get") do %>
+	<%= text_field_tag :q, nil, placeholder: 'Search for a repo here' %>
+	<%= submit_tag("Search") %>
+<% end %>

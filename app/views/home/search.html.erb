@@ -1,0 +1,18 @@
+<h1>Results</h1>
+
+<div class="conatiner">
+    <div class="col-md-12">
+        <% @repos[0..10].each do |repo| %>
+        <div class="col-md-4">
+            <p><%= repo["full_name"] %></p>
+        </div>
+        <div class="col-md-4">
+            <p><%= repo["language"] %></p>
+        </div>
+        <div class="col-md-4">
+            
+        </div>
+        <% end %>
+    </div>
+
+</div>
