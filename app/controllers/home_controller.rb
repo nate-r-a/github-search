@@ -4,15 +4,34 @@ class HomeController < ApplicationController
   
   def search
     base_url = "https://api.github.com/search/repositories?q="
+    
+    @page = nil
+    @page_number = params[:page]
+    if @page_number == nil
+      page_term = ""
+    else
+    page_term = "&page=" + @page_number
+    end
+    
+    pagination_term = "&per_page=25"
+    
+    language_query = "+language:"
+    
     search_term = params[:q]
-    final_url = base_url + search_term
+    
+    language_term = params[:language]
+    if language_term == ""
+      language_query = ""
+    else
+      language_query += language_term
+    end
+    
+    final_url = base_url + search_term + language_query + pagination_term + page_term
     
     response = RestClient.get(final_url)
-    data = JSON.parse(response.body)
+    @repos = JSON.parse(response.body)
     
-    @repos = data["items"]
-    
-    if !@repos.empty?
+    if @repos
       render :search
     else
       flash[:alert] = "Sorry, your search did not return any results."
