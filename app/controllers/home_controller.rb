@@ -30,20 +30,16 @@ class HomeController < ApplicationController
     
     pagination_term = "&per_page=25"
     
-    
-    
-    
-    
     final_url = base_url + search_term + language_query + pagination_term + page_term + sort
     
     response = RestClient.get(final_url)
     @repos = JSON.parse(response.body)
     
-    if @repos
-      render :search
-    else
+    if @repos["items"].empty?
       flash[:alert] = "Sorry, your search did not return any results."
       redirect_to root_path
+    else
+      render :search
     end
     
     

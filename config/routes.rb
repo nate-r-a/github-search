@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  root 'home#home'
   
   get 'search' => 'home#search'
+  root 'home#home'
+  
+  
   
 
   # The priority is based upon order of creation: first created -> highest priority.

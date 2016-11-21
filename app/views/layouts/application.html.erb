@@ -12,10 +12,14 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand">Github Repo Search</a>
-      <%= render 'form' %>
     </div>
+    <%= render 'form' %>
   </div>
 </nav>
+
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
 
 <div class="container">
   <%= yield %>
