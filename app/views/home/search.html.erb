@@ -9,31 +9,70 @@
       <% @page_number = params[:page] %>
     <% end %>
     
-    <% unless @page_number == "1" %>
-      <%= link_to "Previous", search_path(:q => params[:q], :language => params[:language], :page => (@page_number.to_i - 1).to_s) %>
-    <% end %>
+    <div class="btn-group">
+      <% unless @page_number == "1" %>
+        <%= link_to "Previous", search_path(:q => params[:q], :language => params[:language], :page => (@page_number.to_i - 1).to_s, :sort => params[:sort]), class:"btn btn-xs btn-primary" %>
+      <% end %>
+      
+      <% unless (@page_number.to_i * 25) > @repos["total_count"] %>
+        <%= link_to "Next", search_path(:q => params[:q], :language => params[:language], :page => (@page_number.to_i + 1).to_s, :sort => params[:sort]), class:"btn btn-xs btn-primary" %>
+      <% end %>
+    </div>
     
-    <% unless (@page_number.to_i * 25) > @repos["total_count"] %>
-      <%= link_to "Next", search_path(:q => params[:q], :language => params[:language], :page => (@page_number.to_i + 1).to_s) %>
-    <% end %>
     
     <p>Showing <%= (@page_number.to_i * 25 - 24) %>-<%= [(@page_number.to_i * 25), @repos["total_count"]].min %> of <%= @repos["total_count"] %> results</p>
     
-    <% @repos["items"].each do |repo| %>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="col-md-4">
-            <%= link_to repo["full_name"], repo["html_url"] %>
-          </div>
-          <div class="col-md-4">
-            <p><%= repo["language"] %></p>
-          </div>
-          <div class="col-md-4">
-            <p><%= repo["stargazers_count"] %>★</p>
-          </div>
+    <div class="col-md-9">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Primary language</th>
+            <th>Stars</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @repos["items"].each do |repo| %>
+            <tr>
+              <td><%= link_to repo["full_name"], repo["html_url"] %></td>
+              <td><%= repo["language"] %></td>
+              <td><%= repo["stargazers_count"] %> <i class="fa fa-star" aria-hidden="true"></i></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Top matches on this page</h3>
         </div>
+        <% @repos["items"][0..[4, @repos["items"].length].min].each do |repo| %>
+          <div class="panel-body">
+            <%= link_to repo["html_url"] do %>
+              <div class="row">
+                <%= image_tag repo["owner"]["avatar_url"], width:"50px", class: "center-block avatar" %>
+              </div>
+              <div class="row">
+                <p class="text-center"><%= repo["full_name"] %></p>
+              </div>
+            <% end %>
+            <p class="text-center">
+              <%= repo["stargazers_count"] %> <i class="fa fa-star" aria-hidden="true"></i>
+              <%= repo["forks_count"] %> <i class="fa fa-code-fork"></i></span>
+            </p>
+            <p class="text-center">
+              <%= repo["description"] %>
+            </p>
+
+          </div>
+          <hr>
+        <% end %>
       </div>
-    <% end %>
+    </div>
+      
+    
 
 
 </div>

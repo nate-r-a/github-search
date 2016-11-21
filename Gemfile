@@ -30,10 +30,6 @@ gem 'twitter-bootstrap-rails'
 
 # REST Client
 gem 'rest-client'
-# Filterrific
-gem 'filterrific'
-
-gem 'will_paginate', '~> 3.1.0'
 
 
 # Use ActiveModel has_secure_password
