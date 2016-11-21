@@ -15,11 +15,7 @@ class HomeController < ApplicationController
       language_query += language_term
     end
     
-    sort = ""
-    if params[:sort] == "true"
-      sort = "&sort=stars&order=desc"
-    end
-    
+    pagination_term = "&per_page=25"
     
     @page_number = params[:page]
     if @page_number == nil
@@ -28,7 +24,10 @@ class HomeController < ApplicationController
     page_term = "&page=" + @page_number
     end
     
-    pagination_term = "&per_page=25"
+    sort = ""
+    if params[:sort] == "true"
+      sort = "&sort=stars&order=desc"
+    end
     
     final_url = base_url + search_term + language_query + pagination_term + page_term + sort
     
@@ -41,7 +40,5 @@ class HomeController < ApplicationController
     else
       render :search
     end
-    
-    
   end
 end
